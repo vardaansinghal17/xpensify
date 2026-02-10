@@ -21,7 +21,14 @@ const Home = () => {
   useUserAuth();
 
   const navigate = useNavigate();
-  const [dashboardData, setDashboardData] = useState(null);
+  const [dashboardData, setDashboardData] = useState({
+    totalBalance: 0,
+    totalIncome: 0,
+    totalExpense: 0,
+    last30DaysExpenses: { total: 0, transactions: [] },
+    last60DaysIncome: { total: 0, transactions: [] },
+    recentTransactions: [],
+  });
   const [loading, setLoading] = useState(false);
 
   const fetchDashboardData = async () => {
@@ -43,6 +50,7 @@ const Home = () => {
   };
 
   useEffect(() => {
+
     fetchDashboardData();
     return () => { };
   }, []);
@@ -87,9 +95,14 @@ const Home = () => {
             onSeeMore={() => navigate("/expense")}
           />
 
+
+
           <Last30DaysExpenses
-            data={dashboardData?.last30DaysExpenses?.transactions || []}
-          />
+            data = {dashboardData?.last30DaysExpenses.transactions || []}
+            />
+
+
+
 
           <RecentIncomeWithChart
             data={dashboardData?.last60DaysIncome?.transactions?.slice(0, 4) || []}
